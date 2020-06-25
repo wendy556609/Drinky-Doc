@@ -1,0 +1,50 @@
+{
+    "drink": [
+        {
+            "id": "001",
+            "shopName": "7-11",
+            "photo": null,
+            "menu": [
+                {
+                    "id": "001",
+                    "name": "拿鐵",
+                    "photo": null,
+                    "money": 45,
+                    "capacity": "500",
+                    "calories": "300"
+                },
+                {
+                    "id": "002",
+                    "name": "美式",
+                    "photo": null,
+                    "money": 45,
+                    "capacity": "300",
+                    "calories": "200"
+                }
+            ]
+        },
+        {
+            "id": "002",
+            "shopName": "全家",
+            "photo": null,
+            "menu": [
+                {
+                    "id": "001",
+                    "name": "焦糖",
+                    "photo": null,
+                    "money": 45,
+                    "capacity": "500",
+                    "calories": "300"
+                },
+                {
+                    "id": "002",
+                    "name": "拿鐵",
+                    "photo": null,
+                    "money": 45,
+                    "capacity": "300",
+                    "calories": "200"
+                }
+            ]
+        }
+    ]
+}
