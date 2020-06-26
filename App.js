@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, AsyncStorage } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, HeaderTitle } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 //import { } from "./src/stores/drinkStore";
 
@@ -18,6 +19,7 @@ const Data_PERSISTENCE_KEY = "Data_PERSISTENCE_KEY";
 const DATA_ADD_KEY = "DATA_ADD_KEY";
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator()
 
 const App = () => {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);

@@ -6,6 +6,7 @@ const screenWidth = Dimensions.get('window').width;
 export default function MainList({ drink, navigation }) {
   return (
     <View style={styles.container}>
+
       {/* {drink.map((date, i) => {
           return ( */}
       <View>
@@ -17,16 +18,22 @@ export default function MainList({ drink, navigation }) {
                 key={i}
                 onPress={() => navigation.navigate('Detail', item)}>
                 <View style={styles.cardStyle}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Image
-                      style={{ width: 40, height: 40, marginLeft: 10 }}
-                      source={require('../../assets/icon/img.png')} />
-                    <Text style={styles.nameStyle}>{item.name}</Text>
-                  </View>
-                  <View style={{ marginRight: 14 }}>
-                    <Text style={{ color: "#6A6A6A" }}>{item.calories + "cal"}</Text>
-                    <Text style={{ color: "#6A6A6A" }}>{item.sugar + "g"}</Text>
-                  </View>
+                  <Image style={{
+                    height: 54,
+                    width: 343,
+                    position:'absolute'
+                  }}
+                    source={require('../../assets/icon/detail_back.png')}/>
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <Image
+                        style={{ width: 40, height: 40, marginLeft: 10 }}
+                        source={require('../../assets/icon/img.png')} />
+                      <Text style={styles.nameStyle}>{item.name}</Text>
+                    </View>
+                    <View style={{ marginRight: 9 }}>
+                      <Text style={{ color: "#FF612B" }}>{item.calories + "cal" + " / " + item.sugar + "g"}</Text>
+                    </View>
                 </View>
               </TouchableOpacity>
             )
@@ -35,8 +42,6 @@ export default function MainList({ drink, navigation }) {
       </View>
       {/* )
         })}  */}
-
-
     </View>
   );
 }
@@ -47,7 +52,7 @@ const styles = StyleSheet.create({
   },
   cardStyle: {
     flexDirection: 'row',
-    borderColor: "#D5A5FF",
+    borderColor: "#FAE7CB",
     borderRadius: 2,
     borderWidth: 1,
     height: 54,
@@ -57,7 +62,7 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     marginRight: 16,
     marginTop: 10,
-    backgroundColor:'#FAE7CB'
+    //backgroundColor: '#FAE7CB'
   },
   nameStyle: {
     marginLeft: 16,
