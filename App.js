@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, AsyncStorage } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator, HeaderTitle } from '@react-navigation/stack';
+import { createStackNavigator, HeaderTitle, Assets } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 //import { } from "./src/stores/drinkStore";
@@ -12,6 +12,9 @@ import MainScreen from "./src/screens/MainScreen"
 import AnalysisScreen from "./src/screens/AnalysisScreen"
 import DetailScreen from "./src/screens/DetailScreen"
 import AddScreen from "./src/screens/AddScreen"
+import ForumScreen from "./src/screens/ForumScreen"
+import AccountScreen from "./src/screens/AccountScreen"
+
 
 const PERSISTENCE_KEY = "DRINK_NAVIGATION_STATE";
 
@@ -69,15 +72,17 @@ const App = () => {
       <NavigationContainer
         ref={ref}
         initialState={initialNavigationState}
+
         onStateChange={(state) =>
           AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
         }>
+
         <Stack.Navigator>
           <Stack.Screen name="Main"
             component={MainScreen}
             options={() => ({
               title: null,
-              headerStyle: { backgroundColor: "#FFB385", height: 60 },
+              headerStyle: { backgroundColor: "#FAE7CB", height: 60 },
               headerRight: () => {
                 return (
                   <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
@@ -89,10 +94,6 @@ const App = () => {
                     <TouchableOpacity
                       onPress={() => ref.current?.navigate('Analysis')}
                     >
-                      <Image
-                        style={styles.btnIconStyle}
-                        source={require('./assets/icon/btn-analysis.png')}
-                      />
                     </TouchableOpacity>
                   </View>
                 )
@@ -102,7 +103,7 @@ const App = () => {
                   <TouchableOpacity>
                     <Image
                       style={styles.btnIconStyle}
-                      source={require('./assets/icon/btn-setting.png')}
+                      source={require('./assets/icon/btn-today.png')}
                     />
                   </TouchableOpacity>
                 )
@@ -114,17 +115,8 @@ const App = () => {
             component={AnalysisScreen}
             options={({ navigation }) => ({
               title: null,
-              headerStyle: { backgroundColor: "#FFB385", height: 60 },
-              headerLeft: () => {
-                return (
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('Main')}>
-                    <Image
-                      style={styles.btnIconStyle}
-                      source={require('./assets/icon/btn-arrow.png')} />
-                  </TouchableOpacity>
-                )
-              },
+              headerStyle: { backgroundColor: "#FAE7CB", height: 60 },
+              headerLeft: null,
               headerTitle: () => {
                 return (
                   <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
@@ -134,7 +126,7 @@ const App = () => {
                         source={require('./assets/icon/btn-left.png')}
                       />
                     </TouchableOpacity>
-                    <Text>4.1~4.30</Text>
+                    <Text>Apr.</Text>
                     <TouchableOpacity>
                       <Image
                         style={styles.btnIconStyle}
@@ -151,7 +143,7 @@ const App = () => {
             component={DetailScreen}
             options={({ navigation }) => ({
               title: null,
-              headerStyle: { backgroundColor: "#FFB385", height: 60 },
+              headerStyle: { backgroundColor: "#FFB455", height: 60 },
               headerRight: () => {
                 return (
                   <TouchableOpacity
@@ -180,51 +172,59 @@ const App = () => {
             component={AddScreen}
             options={({ navigation }) => ({
               title: null,
-              headerStyle: { backgroundColor: "#FFB385", height: 60 },
+              headerStyle: { backgroundColor: "#FFB455", height: 60 },
               headerRight: () => {
                 return (
-                  <TouchableOpacity
-                    onPress={(name, capacity, sweet, calories, sugar, sport, photo, store, cup, ice, day, data, plus) => {
-                      name = drinkTemp.detail[0].name;
-                      capacity = drinkTemp.detail[0].capacity;
-                      sweet = drinkTemp.detail[0].sweet;
-                      photo = drinkTemp.detail[0].photo;
-                      store = drinkTemp.detail[0].store;
-                      cup = drinkTemp.detail[0].cup;
-                      ice = drinkTemp.detail[0].ice;
-                      day = drinkTemp.day;
-                      sugar = capacity * 0.02 * drinkTemp.detail[0].sweetindex * cup;
-                      calories = capacity * 0.08 * drinkTemp.detail[0].sweetindex * cup;
-                      //sport = parseInt(calories / 10);
-                      sport = (calories / 10 / 60).toFixed(1);
-                      data = {
-                        day,
-                        detail: [
-                          {
-                            name,
-                            capacity,
-                            sweet,
-                            calories,
-                            sugar,
-                            sport,
-                            photo,
-                            store,
-                            cup,
-                            ice
-                          }
-                        ]
-                      };
-                      setDrinks([data, ...drinks]);
-                      AsyncStorage.setItem(Data_PERSISTENCE_KEY, JSON.stringify([data, ...drinks]));
-                      AsyncStorage.setItem(DATA_ADD_KEY, JSON.stringify(true));
+                  <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity>
+                      <Image
+                        style={styles.btnIconStyle}
+                        source={require('./assets/icon/scan.png')}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={(name, capacity, sweet, calories, sugar, sport, photo, store, cup, ice, day, data, plus) => {
+                        name = drinkTemp.detail[0].name;
+                        capacity = drinkTemp.detail[0].capacity;
+                        sweet = drinkTemp.detail[0].sweet;
+                        photo = drinkTemp.detail[0].photo;
+                        store = drinkTemp.detail[0].store;
+                        cup = drinkTemp.detail[0].cup;
+                        ice = drinkTemp.detail[0].ice;
+                        day = drinkTemp.day;
+                        sugar = capacity * 0.02 * drinkTemp.detail[0].sweetindex * cup;
+                        calories = capacity * 0.08 * drinkTemp.detail[0].sweetindex * cup;
+                        //sport = parseInt(calories / 10);
+                        sport = (calories / 10 / 60).toFixed(1);
+                        data = {
+                          day,
+                          detail: [
+                            {
+                              name,
+                              capacity,
+                              sweet,
+                              calories,
+                              sugar,
+                              sport,
+                              photo,
+                              store,
+                              cup,
+                              ice
+                            }
+                          ]
+                        };
+                        setDrinks([data, ...drinks]);
+                        AsyncStorage.setItem(Data_PERSISTENCE_KEY, JSON.stringify([data, ...drinks]));
+                        AsyncStorage.setItem(DATA_ADD_KEY, JSON.stringify(true));
 
-                      navigation.navigate('Main');
-                    }}>
-                    <Image
-                      style={styles.btnIconStyle}
-                      source={require('./assets/icon/btn-check.png')}
-                    />
-                  </TouchableOpacity>
+                        navigation.navigate('Main');
+                      }}>
+                      <Image
+                        style={styles.btnIconStyle}
+                        source={require('./assets/icon/btn-check.png')}
+                      />
+                    </TouchableOpacity>
+                  </View>
                 )
               },
               headerLeft: () => {
@@ -239,12 +239,367 @@ const App = () => {
               }
             })}
           />
+          <Stack.Screen name="Forum"
+            component={ForumScreen}
+            options={({ navigation }) => ({
+              title: null,
+              headerStyle: { backgroundColor: "#FAE7CB", height: 60 },
+              headerLeft: null,
+              headerRight: () => {
+                return (
+                  <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                    <TouchableOpacity>
+                      <Image
+                        style={styles.btnIconStyle}
+                        source={require('./assets/icon/btn-search.png')} />
+                    </TouchableOpacity>
+                  </View>
+                )
+              }
+            })}
+          />
+          <Stack.Screen name="Account"
+            component={AccountScreen}
+            options={({ navigation }) => ({
+              title: null,
+              headerStyle: { backgroundColor: "#FAE7CB", height: 60, elevation: 0 },
+              headerLeft: null,
+              headerRight: () => {
+                return (
+                  <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                    <TouchableOpacity>
+                      <Image
+                        style={styles.btnIconStyle}
+                        source={require('./assets/icon/btn-search.png')} />
+                    </TouchableOpacity>
+                  </View>
+                )
+              }
+            })}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     );
 
   }
 };
+
+function TabPage() {
+  return (
+    <Tab.Navigator
+
+      tabBarOptions={{
+        showLabel: false,
+        style: { width: 293, height: 53, borderColor: '#FF612B', borderWidth: 1, marginBottom: 30 }
+      }}>
+      <Tab.Screen name="Main"
+        component={HomeStack}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            if (focused) {
+              return (
+                <Image
+                  style={{ height: 44, width: 44 }}
+                  source={require('./assets/icon/touch/btn-home.png')}
+                />
+              )
+            }
+            else {
+              return (
+                <Image
+                  style={{ height: 44, width: 44 }}
+                  source={require('./assets/icon/untouch/btn-home-untouch.png')}
+                />
+              )
+            }
+          }
+        }} />
+      <Tab.Screen name="Analysis"
+        component={AnalysisStack}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            if (focused) {
+              return (
+                <Image
+                  style={styles.navIconStyle}
+                  source={require('./assets/icon/touch/btn-analysis.png')}
+                />
+              )
+            }
+            else {
+              return (
+                <Image
+                  style={styles.navIconStyle}
+                  source={require('./assets/icon/untouch/btn-analysis-untouch.png')}
+                />
+              )
+            }
+          }
+        }} />
+    </Tab.Navigator>
+  )
+}
+
+function HomeStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Main"
+        component={MainScreen}
+        options={() => ({
+          title: null,
+          headerStyle: { backgroundColor: "#FFB385", height: 60 },
+          headerRight: () => {
+            return (
+              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                <TouchableOpacity>
+                  <Image
+                    style={styles.btnIconStyle}
+                    source={require('./assets/icon/btn-search.png')} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => ref.current?.navigate('Analysis')}
+                >
+                  <Image
+                    style={styles.btnIconStyle}
+                    source={require('./assets/icon/btn-analysis.png')}
+                  />
+                </TouchableOpacity>
+              </View>
+            )
+          },
+          headerLeft: () => {
+            return (
+              <TouchableOpacity>
+                <Image
+                  style={styles.btnIconStyle}
+                  source={require('./assets/icon/btn-setting.png')}
+                />
+              </TouchableOpacity>
+            )
+          }
+
+        })}
+      />
+    </Stack.Navigator>
+  )
+}
+
+function AnalysisStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Analysis"
+        component={AnalysisScreen}
+        options={({ navigation }) => ({
+          title: null,
+          headerStyle: { backgroundColor: "#FFB385", height: 60 },
+          headerLeft: () => {
+            return (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Main')}>
+                <Image
+                  style={styles.btnIconStyle}
+                  source={require('./assets/icon/btn-arrow.png')} />
+              </TouchableOpacity>
+            )
+          },
+          headerTitle: () => {
+            return (
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                <TouchableOpacity>
+                  <Image
+                    style={styles.btnIconStyle}
+                    source={require('./assets/icon/btn-left.png')}
+                  />
+                </TouchableOpacity>
+                <Text>4.1~4.30</Text>
+                <TouchableOpacity>
+                  <Image
+                    style={styles.btnIconStyle}
+                    source={require('./assets/icon/btn-right.png')}
+                  />
+                </TouchableOpacity>
+              </View>
+            )
+          },
+          headerTitleAlign: 'center'
+        })}
+      />
+    </Stack.Navigator>
+  )
+}
+
+function StackPage() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Main"
+        component={MainScreen}
+        options={() => ({
+          title: null,
+          headerStyle: { backgroundColor: "#FFB385", height: 60 },
+          headerRight: () => {
+            return (
+              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                <TouchableOpacity>
+                  <Image
+                    style={styles.btnIconStyle}
+                    source={require('./assets/icon/btn-search.png')} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => ref.current?.navigate('Analysis')}
+                >
+                  <Image
+                    style={styles.btnIconStyle}
+                    source={require('./assets/icon/btn-analysis.png')}
+                  />
+                </TouchableOpacity>
+              </View>
+            )
+          },
+          headerLeft: () => {
+            return (
+              <TouchableOpacity>
+                <Image
+                  style={styles.btnIconStyle}
+                  source={require('./assets/icon/btn-setting.png')}
+                />
+              </TouchableOpacity>
+            )
+          }
+
+        })}
+      />
+      <Stack.Screen name="Analysis"
+        component={AnalysisScreen}
+        options={({ navigation }) => ({
+          title: null,
+          headerStyle: { backgroundColor: "#FFB385", height: 60 },
+          headerLeft: () => {
+            return (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Main')}>
+                <Image
+                  style={styles.btnIconStyle}
+                  source={require('./assets/icon/btn-arrow.png')} />
+              </TouchableOpacity>
+            )
+          },
+          headerTitle: () => {
+            return (
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                <TouchableOpacity>
+                  <Image
+                    style={styles.btnIconStyle}
+                    source={require('./assets/icon/btn-left.png')}
+                  />
+                </TouchableOpacity>
+                <Text>4.1~4.30</Text>
+                <TouchableOpacity>
+                  <Image
+                    style={styles.btnIconStyle}
+                    source={require('./assets/icon/btn-right.png')}
+                  />
+                </TouchableOpacity>
+              </View>
+            )
+          },
+          headerTitleAlign: 'center'
+        })}
+      />
+      <Stack.Screen name="Detail"
+        component={DetailScreen}
+        options={({ navigation }) => ({
+          title: null,
+          headerStyle: { backgroundColor: "#FFB385", height: 60 },
+          headerRight: () => {
+            return (
+              <TouchableOpacity
+              //onPress={() => AsyncStorage.clear()}
+              >
+                <Image
+                  style={styles.btnIconStyle}
+                  source={require('./assets/icon/btn-delete.png')}
+                />
+              </TouchableOpacity>
+            )
+          },
+          headerLeft: () => {
+            return (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Main')}>
+                <Image
+                  style={styles.btnIconStyle}
+                  source={require('./assets/icon/btn-arrow.png')} />
+              </TouchableOpacity>
+            )
+          }
+        })}
+      />
+      <Stack.Screen name="Add"
+        component={AddScreen}
+        options={({ navigation }) => ({
+          title: null,
+          headerStyle: { backgroundColor: "#FFB385", height: 60 },
+          headerRight: () => {
+            return (
+              <TouchableOpacity
+                onPress={(name, capacity, sweet, calories, sugar, sport, photo, store, cup, ice, day, data, plus) => {
+                  name = drinkTemp.detail[0].name;
+                  capacity = drinkTemp.detail[0].capacity;
+                  sweet = drinkTemp.detail[0].sweet;
+                  photo = drinkTemp.detail[0].photo;
+                  store = drinkTemp.detail[0].store;
+                  cup = drinkTemp.detail[0].cup;
+                  ice = drinkTemp.detail[0].ice;
+                  day = drinkTemp.day;
+                  sugar = capacity * 0.02 * drinkTemp.detail[0].sweetindex * cup;
+                  calories = capacity * 0.08 * drinkTemp.detail[0].sweetindex * cup;
+                  //sport = parseInt(calories / 10);
+                  sport = (calories / 10 / 60).toFixed(1);
+                  data = {
+                    day,
+                    detail: [
+                      {
+                        name,
+                        capacity,
+                        sweet,
+                        calories,
+                        sugar,
+                        sport,
+                        photo,
+                        store,
+                        cup,
+                        ice
+                      }
+                    ]
+                  };
+                  setDrinks([data, ...drinks]);
+                  AsyncStorage.setItem(Data_PERSISTENCE_KEY, JSON.stringify([data, ...drinks]));
+                  AsyncStorage.setItem(DATA_ADD_KEY, JSON.stringify(true));
+
+                  navigation.navigate('Main');
+                }}>
+                <Image
+                  style={styles.btnIconStyle}
+                  source={require('./assets/icon/btn-check.png')}
+                />
+              </TouchableOpacity>
+            )
+          },
+          headerLeft: () => {
+            return (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Main')}>
+                <Image
+                  style={styles.btnIconStyle}
+                  source={require('./assets/icon/btn-arrow.png')} />
+              </TouchableOpacity>
+            )
+          }
+        })}
+      />
+    </Stack.Navigator>
+  )
+}
 
 const styles = StyleSheet.create({
   container: {

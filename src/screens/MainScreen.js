@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { StyleSheet, Dimensions, View, Text, FlatList, TouchableOpacity, Image, ScrollView, ImageBackground, SectionList, SafeAreaView } from "react-native";
 import test from "../json/test.json";
 import MainList from "../components/MainList";
+import TabComponent from "../components/TabComponent";
 import { StoreContext } from "../stores/drinkStore";
 
 const screenWidth = Dimensions.get('window').width;
@@ -66,8 +67,8 @@ const MainScreen = ({ navigation }) => {
           </View>
         </View>
       </View>
-      <View style={{justifyContent: 'center', height: 30, width: 40,marginTop:20,marginBottom:10,marginLeft:50,}}>
-        <Text style={{color:'#F8F8F8',fontWeight:'bold',fontSize:20}}>紀錄</Text>
+      <View style={{ justifyContent: 'center', height: 30, width: 40, marginTop: 20, marginBottom: 10, marginLeft: 50, }}>
+        <Text style={{ color: '#F8F8F8', fontWeight: 'bold', fontSize: 20 }}>紀錄</Text>
       </View>
       <FlatList
         data={drinks}
@@ -78,7 +79,11 @@ const MainScreen = ({ navigation }) => {
           />}
         keyExtractor={item => item.day}
       />
-
+      <View  style={{position: 'absolute',bottom: 30,height:54,width:screenWidth,alignItems:'center',justifyContent:'center'}}>
+      <TabComponent 
+      page={"Main"}
+      navigation={navigation}/>
+      </View>
       {/* <TouchableOpacity
         onPress={() => { navigation.navigate('Add') }}
         style={styles.TouchStyle}>

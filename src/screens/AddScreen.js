@@ -3,24 +3,30 @@ import { StyleSheet, View, Dimensions, Text, ScrollView, Image } from "react-nat
 import { Input, ButtonGroup } from "react-native-elements";
 import { StoreContext } from "../stores/drinkStore";
 
+const screenHeight = Dimensions.get('window').height;
 const screenWidth = Dimensions.get('window').width;
 
 const sweetBtn = ['無糖', '微糖', '半糖', '少糖', '全糖'];
 const iceBtn = ['去冰', '微冰', '半冰', '少冰', '全冰'];
+const addBtn = ['珍珠', '椰果', '布丁', '仙草'];
+const add2Btn = ['粉條', '紅豆','芋圓','愛玉'];
 
 const AddScreen = () => {
     const [sweetindex, setSweet] = useState(0);
     const [iceindex, setIce] = useState(0);
+    const [addindex, setAdd] = useState(0);
+    const [add2index, setAdd2] = useState(null);
 
     const { drinkTempState } = useContext(StoreContext);
     const [drinkTemp, setDrinkTemp] = drinkTempState;
     return (
         <View style={{ flex: 1 }} >
+            <Image
+                style={{ position: 'absolute', height: screenHeight, width: screenWidth, resizeMode: 'stretch' }}
+                resizeMode='stretch'
+                source={require('../../assets/icon/bg.png')} />
             <ScrollView>
-                <Image
-                    style={{ position: 'absolute', height: 750, width: screenWidth }}
-                    resizeMode='stretch'
-                    source={require('../../assets/icon/bg.png')} />
+
                 <View style={{
                     width: 343, height: null, alignSelf: 'center', justifyContent: 'center'
                 }}>
@@ -56,7 +62,7 @@ const AddScreen = () => {
                         />
 
                     </View>
-                    <View style={{ paddingTop: 8 }}>
+                    <View style={{ paddingTop: 14 }}>
                         <Input
                             leftIcon={() => <Image style={{ width: 24, height: 24, marginLeft: -25 }} source={require('../../assets/icon/icon-create.png')} />}
                             leftIconContainerStyle={{
@@ -87,7 +93,7 @@ const AddScreen = () => {
                         // onChangeText={(email) => setMe({ ...me, email })}
                         />
                     </View>
-                    <View style={{ paddingTop: 8 }}>
+                    <View style={{ paddingTop: 14 }}>
                         <View style={{
                             paddingTop: 8,
                             flexDirection: 'row',
@@ -160,7 +166,7 @@ const AddScreen = () => {
                             </View>
                         </View>
                     </View>
-                    <View style={{ paddingTop: 8 }}>
+                    <View style={{ paddingTop: 14 }}>
                         <View style={{
                             height: 170,
                             width: 343,
@@ -253,12 +259,96 @@ const AddScreen = () => {
                             </View>
                         </View>
                     </View>
-                    <View style={{ paddingTop: 8 }}>
+                    <View style={{ paddingTop: 14 }}>
+                        <View style={{
+                            height: 130,
+                            width: 343,
+                            backgroundColor: '#FAE7CB',
+                            borderColor: "#FFB385",
+                            borderRadius: 2,
+                            borderWidth: 1,
+                            justifyContent: 'flex-start',
+                            alignItems: 'center'
+                        }}>
+
+                            <View style={{
+                                justifyContent: 'center',
+                                alignItems: 'center',
+
+                            }}>
+                                <Text style={{ marginLeft: 30, marginBottom: 12, marginTop: 11, alignSelf: 'flex-start', color: "#FF8155" }}>加料</Text>
+                                {/* <Button buttonStyle={styles.buttonStyle} titleStyle={styles.buttonFontStyle} type='outline' title="無糖" />
+                            <Button buttonStyle={styles.buttonStyle} titleStyle={styles.buttonFontStyle} type='outline' title="微糖" />
+                            <Button buttonStyle={styles.buttonStyle} titleStyle={styles.buttonFontStyle} type='outline' title="半糖" />
+                            <Button buttonStyle={styles.buttonStyle} titleStyle={styles.buttonFontStyle} type='outline' title="少糖" />
+                            <Button buttonStyle={styles.buttonStyle} titleStyle={styles.buttonFontStyle} type='outline' title="全糖" /> */}
+                                <ButtonGroup
+                                    buttons={addBtn}
+                                    onPress={(addindex, add) => { setAdd(addindex); add = addBtn[addindex]; }}
+                                    selectedIndex={addindex}
+
+                                    containerStyle={{
+                                        
+                                        height: 30,
+                                        width: 300,
+                                        borderWidth: 0,
+                                        marginBottom: 5,
+                                        backgroundColor: '#FAE7CB',
+                                        
+                                    }}
+                                    buttonStyle={{
+                                        height: 30,
+                                        width: 64,
+                                        
+                                        backgroundColor: "#FFFFFF",
+                                        borderColor: "#FFB385",
+                                        borderRadius: 2,
+                                        borderWidth: 1
+                                    }}
+                                    selectedButtonStyle={{
+                                        backgroundColor: "#FFB385",
+                                        borderColor: "#FF612B"
+                                    }}
+                                    textStyle={styles.buttonFontStyle}
+                                    innerBorderStyle={{ width: 0 }}
+                                />
+                                <ButtonGroup
+                                    buttons={add2Btn}
+                                    onPress={(add2index, add2) => { setAdd2(add2index); add2 = add2Btn[add2index]; }}
+                                    selectedIndex={add2index}
+                                    containerStyle={{
+                                        flexDirection: 'row',
+                                        height: 30,
+                                        width: 300,
+                                        borderWidth: 0,
+                                        marginBottom: 5,
+                                        backgroundColor: '#FAE7CB'
+                                    }}
+                                    buttonStyle={{
+                                        height: 30,
+                                        width: 64,
+
+                                        backgroundColor: "#FFFFFF",
+                                        borderColor: "#FFB385",
+                                        borderRadius: 2,
+                                        borderWidth: 1
+                                    }}
+                                    selectedButtonStyle={{
+                                        backgroundColor: "#FFB385",
+                                        borderColor: "#FF612B"
+                                    }}
+                                    textStyle={styles.buttonFontStyle}
+                                    innerBorderStyle={{ width: 0 }}
+                                />
+                            </View>
+                        </View>
+                    </View>
+                    <View style={{ paddingTop: 14 }}>
                         <Input
-                        leftIcon={() => <Image style={{ width: 48, height: 48, marginLeft: -25 }} source={require('../../assets/icon/btn-today.png')} />}
-                        leftIconContainerStyle={{
-                            width: 24, height: 24
-                        }}
+                            leftIcon={() => <Image style={{ width: 48, height: 48, marginLeft: -25 }} source={require('../../assets/icon/btn-today.png')} />}
+                            leftIconContainerStyle={{
+                                width: 24, height: 24
+                            }}
                             placeholder="日期"
                             containerStyle={{
                                 height: 54,
@@ -284,21 +374,22 @@ const AddScreen = () => {
                         // onChangeText={(email) => setMe({ ...me, email })}
                         />
                     </View>
-                    <View style={{ paddingTop: 38, paddingBottom: 76 }}>
+                    <View style={{ paddingTop: 14, paddingBottom: 76 }}>
                         <View style={{
-                            width: 183,
-                            height: 183,
-                            backgroundColor: '#FAE7CB',
-                            borderColor: "#FFB385",
+                            width: 343,
+                            height: 54,
+                            backgroundColor: '#FFFFFF',
+                            borderColor: "#FF8155",
                             borderRadius: 2,
                             borderWidth: 1,
                             alignSelf: 'center',
                             alignItems: 'center',
                             justifyContent: 'center',
+                            borderStyle: 'dashed',
                         }}>
                             <Image
-                                style={{ width: 86, height: 86 }}
-                                source={require('../../assets/icon/icon-plus.png')} />
+                                style={{ width: 24, height: 24 }}
+                                source={require('../../assets/icon/add_photo.png')} />
                         </View>
                     </View>
                 </View>
