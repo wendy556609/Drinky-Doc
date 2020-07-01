@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Drink Book",
-    "slug": "app_Middle",
+    "name": "Drinky Doc",
+    "slug": "app_final",
     "platforms": [
       "ios",
       "android",
@@ -23,6 +23,8 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "sdkVersion": "37.0.0",
+    "description": ""
   }
 }
