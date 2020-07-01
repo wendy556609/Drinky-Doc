@@ -14,36 +14,71 @@ const ForumScreen = ({ navigation }) => {
           <View style={{ width: 172, height: 36, backgroundColor: '#FF8155', borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
             <Text style={{ color: '#fff', fontWeight: 'bold' }}>討論區</Text>
           </View>
-          <View style={{ width: 172, height: 36, alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{ color: '#515151', fontWeight: 'bold' }}>已收藏</Text>
-          </View>
+          <TouchableOpacity>
+            <View style={{ width: 172, height: 36, alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ color: '#515151', fontWeight: 'bold' }}>已收藏</Text>
+            </View>
+          </TouchableOpacity>
         </View>
         <View style={{ marginTop: 26 }}>
           <Text style={{ marginLeft: 40, fontSize: 16, fontWeight: 'bold' }}>熱門文章</Text>
           <View style={{ width: screenWidth, marginTop: 8, alignItems: 'center', justifyContent: 'center' }}>
             <View style={{ width: 343, height: 66, borderColor: '#FF612B', borderWidth: 1, borderRadius: 8, alignItems: 'center', flexDirection: 'row' }}>
-              <View style={{ width: 36, height: 36, borderColor: '#FF612B', borderWidth: 1, marginLeft: 18 }}></View>
+              <View style={{ width: 36, height: 36, borderColor: '#FF612B', borderWidth: 1, marginLeft: 18, borderRadius: 18, alignItems: 'center', justifyContent: 'center' }}>
+                <Image
+                  style={{ width: 36, height: 36, borderRadius: 18 }}
+                  source={require('../../assets/photo/taipei.png')} />
+              </View>
               <View style={{ marginLeft: 18 }}>
                 <Text style={{ fontSize: 16 }}>健康飲品推薦 #Top10</Text>
                 <Text style={{ fontSize: 12 }}>#1多喝水</Text>
+              </View>
+              <View style={{ width: 100, alignItems: 'flex-end' }}>
+                <TouchableOpacity>
+                  <Image
+                    style={{ width: 24, height: 24 }}
+                    source={require('../../assets/icon/untouch/btn-save-untouch.png')} />
+                </TouchableOpacity>
               </View>
             </View>
           </View>
           <View style={{ width: screenWidth, marginTop: 8, alignItems: 'center', justifyContent: 'center' }}>
             <View style={{ width: 343, height: 66, borderColor: '#FF612B', borderWidth: 1, borderRadius: 8, alignItems: 'center', flexDirection: 'row' }}>
-              <View style={{ width: 36, height: 36, borderColor: '#FF612B', borderWidth: 1, marginLeft: 18 }}></View>
+              <View style={{ width: 36, height: 36, borderColor: '#FF612B', borderWidth: 1, marginLeft: 18, borderRadius: 18, alignItems: 'center', justifyContent: 'center' }}>
+                <Image
+                  style={{ width: 36, height: 36, borderRadius: 18 }}
+                  source={require('../../assets/photo/drink_people01.jpg')} />
+              </View>
               <View style={{ marginLeft: 18 }}>
                 <Text style={{ fontSize: 16 }}>健康飲品推薦 #Top10</Text>
                 <Text style={{ fontSize: 12 }}>#1多喝水</Text>
+              </View>
+              <View style={{ width: 100, alignItems: 'flex-end' }}>
+                <TouchableOpacity>
+                  <Image
+                    style={{ width: 24, height: 24 }}
+                    source={require('../../assets/icon/untouch/btn-save-untouch.png')} />
+                </TouchableOpacity>
               </View>
             </View>
           </View>
           <View style={{ width: screenWidth, marginTop: 8, alignItems: 'center', justifyContent: 'center' }}>
             <View style={{ width: 343, height: 66, borderColor: '#FF612B', borderWidth: 1, borderRadius: 8, alignItems: 'center', flexDirection: 'row' }}>
-              <View style={{ width: 36, height: 36, borderColor: '#FF612B', borderWidth: 1, marginLeft: 18 }}></View>
+              <View style={{ width: 36, height: 36, borderColor: '#FF612B', borderWidth: 1, marginLeft: 18, borderRadius: 18, alignItems: 'center', justifyContent: 'center' }}>
+                <Image
+                  style={{ width: 36, height: 36, borderRadius: 18 }}
+                  source={require('../../assets/photo/drink_people03.jpg')} />
+              </View>
               <View style={{ marginLeft: 18 }}>
                 <Text style={{ fontSize: 16 }}>健康飲品推薦 #Top10</Text>
                 <Text style={{ fontSize: 12 }}>#1多喝水</Text>
+              </View>
+              <View style={{ width: 100, alignItems: 'flex-end' }}>
+                <TouchableOpacity>
+                  <Image
+                    style={{ width: 24, height: 24 }}
+                    source={require('../../assets/icon/untouch/btn-save-untouch.png')} />
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -51,7 +86,11 @@ const ForumScreen = ({ navigation }) => {
           <View style={{ width: screenWidth, marginTop: 40, alignItems: 'center', justifyContent: 'center' }}>
             <View style={{ width: 343, height: 480, borderColor: '#FF612B', borderWidth: 1, borderRadius: 8 }}>
               <View style={{ width: 343, height: 55, flexDirection: 'row', borderColor: '#FF612B', alignItems: 'center', marginTop: 5, borderBottomWidth: 1 }}>
-                <View style={{ width: 36, height: 36, borderColor: '#FF612B', borderWidth: 1, marginLeft: 18 }}></View>
+                <View style={{ width: 36, height: 36, borderColor: '#FF612B', borderWidth: 1, marginLeft: 18, borderRadius: 18, alignItems: 'center', justifyContent: 'center' }}>
+                  <Image
+                    style={{ width: 36, height: 36, borderRadius: 18 }}
+                    source={require('../../assets/photo/drink_people02.jpg')} />
+                </View>
                 <View style={{ marginLeft: 18 }}>
                   <Text style={{ fontSize: 16 }}>健康女神</Text>
                 </View>
@@ -77,7 +116,11 @@ const ForumScreen = ({ navigation }) => {
           <View style={{ width: screenWidth, marginTop: 40, alignItems: 'center', justifyContent: 'center' }}>
             <View style={{ width: 343, height: 480, borderColor: '#FF612B', borderWidth: 1, borderRadius: 8 }}>
               <View style={{ width: 343, height: 55, flexDirection: 'row', borderColor: '#FF612B', alignItems: 'center', marginTop: 5, borderBottomWidth: 1 }}>
-                <View style={{ width: 36, height: 36, borderColor: '#FF612B', borderWidth: 1, marginLeft: 18 }}></View>
+                <View style={{ width: 36, height: 36, borderColor: '#FF612B', borderWidth: 1, marginLeft: 18, borderRadius: 18, alignItems: 'center', justifyContent: 'center' }}>
+                  <Image
+                    style={{ width: 36, height: 36, borderRadius: 18 }}
+                    source={require('../../assets/icon/photo.png')} />
+                </View>
                 <View style={{ marginLeft: 18 }}>
                   <Text style={{ fontSize: 16 }}>健康女神</Text>
                 </View>

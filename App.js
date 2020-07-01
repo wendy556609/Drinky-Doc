@@ -15,7 +15,7 @@ import AddScreen from "./src/screens/AddScreen"
 import ForumScreen from "./src/screens/ForumScreen"
 import AccountScreen from "./src/screens/AccountScreen"
 import Login from "./src/screens/Login"
-
+import LoadingScreen from "./src/screens/LoadingScreen"
 
 const PERSISTENCE_KEY = "DRINK_NAVIGATION_STATE";
 
@@ -25,7 +25,6 @@ const DATA_ADD_KEY = "DATA_ADD_KEY";
 const Stack = createStackNavigator();
 
 const App = () => {
-  const [isLogin, setLogin] = React.useState(false);
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
 
@@ -54,14 +53,14 @@ const App = () => {
     async function loadResourcesAndDataAsync() {
       try {
         // if(isLogin){
-          const savedStateString = await AsyncStorage.getItem(PERSISTENCE_KEY);
-          const state = JSON.parse(savedStateString);
-          setInitialNavigationState(state);
+        const savedStateString = await AsyncStorage.getItem(PERSISTENCE_KEY);
+        const state = JSON.parse(savedStateString);
+        setInitialNavigationState(state);
         // }
         // else{
         //   setInitialNavigationState("Login");
         // }
-        
+
       } catch (e) {
         console.warn(e);
       } finally {
@@ -86,15 +85,17 @@ const App = () => {
         }>
 
         <Stack.Navigator>
-        <Stack.Screen name="Login"
+          <Stack.Screen name="Login"
             component={Login}
             options={() => ({
               title: null,
-              headerStyle: { backgroundColor: "#FFFFFF", height: 60, elevation: 0 },
+              hearder: null,
+              headerStyle: { elevation: 0 },
               headerLeft: null,
               headerRight: null
             })}
           />
+
           <Stack.Screen name="Main"
             component={MainScreen}
             options={() => ({
@@ -301,6 +302,16 @@ const App = () => {
                   </View>
                 )
               }
+            })}
+          />
+          <Stack.Screen name="Loading"
+            component={LoadingScreen}
+            options={() => ({
+              title: null,
+              hearder: null,
+              headerStyle: { elevation: 0 },
+              headerLeft: null,
+              headerRight: null
             })}
           />
         </Stack.Navigator>

@@ -3,10 +3,14 @@ import { StyleSheet, Dimensions, View, Button, Text, FlatList, TouchableOpacity,
 
 import TabComponent from "../components/TabComponent";
 
+import { StoreContext } from "../stores/drinkStore";
+
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 const AccountScreen = ({ navigation }) => {
+    const { accountState } = useContext(StoreContext);
+    const [account, setAccount]  = accountState;
     return (
         <View style={{ flex: 1, backgroundColor: "#FAE7CB" }}>
             <Image
@@ -14,7 +18,7 @@ const AccountScreen = ({ navigation }) => {
                 source={require('../../assets/icon/bg-account.png')} />
             <View>
                 <View style={{ marginTop: 30, alignItems: 'center' }}>
-                    <Text style={{ fontSize: 18, color: '#FF8155' }}>Ayane kara</Text>
+                    <Text style={{ fontSize: 18, color: '#FF8155' }}>{account}</Text>
                     <View style={{ height: 126, width: 126, borderRadius: 65, borderWidth: 6, borderColor: '#FF612B', alignItems: 'center', justifyContent: 'center', marginTop: 12 }}>
                         <Image
                             style={{ height: 120, width: 120 }}

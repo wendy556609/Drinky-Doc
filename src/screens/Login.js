@@ -18,7 +18,8 @@ function LoginWarn(isLogin) {
 }
 
 const Login = ({ navigation }) => {
-    const [account, setAccount] = useState("");
+    const { accountState } = useContext(StoreContext);
+    const [account, setAccount]  = accountState;
     const [password, setPassword] = useState("");
     const [isLogin, setLogin] = useState(false);
     const [loginFail, setLoginFail] = useState(false);
@@ -74,6 +75,7 @@ const Login = ({ navigation }) => {
                             leftIconContainerStyle={{
                                 width: 24, height: 24
                             }}
+                            secureTextEntry={true}
                             placeholder="Password"
                             containerStyle={{
                                 marginTop: 10,

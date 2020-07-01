@@ -65,6 +65,27 @@ function AccountTouch(page) {
         )
     }
 }
+function AddTouch(page,navigation) {
+    if (page == "Forum") {
+        return (
+            <TouchableOpacity>
+                    <Image
+                        style={{ width: 32, height: 32 }}
+                        source={require('../../assets/icon/write.png')} />
+                </TouchableOpacity>
+        )
+    }
+    else {
+        return (
+            <TouchableOpacity
+                onPress={() => navigation.navigate('Add')}>
+                    <Image
+                        style={{ width: 32, height: 32 }}
+                        source={require('../../assets/icon/Plus.png')} />
+                </TouchableOpacity>
+        )
+    }
+}
 export default function TabComponent({ page, navigation }) {
     return (
         <View style={styles.container}>
@@ -83,12 +104,7 @@ export default function TabComponent({ page, navigation }) {
                 onPress={() => navigation.navigate('Analysis')}>
                     {AnalysisTouch(page)}
                 </TouchableOpacity>
-                <TouchableOpacity
-                onPress={() => navigation.navigate('Add')}>
-                    <Image
-                        style={{ width: 32, height: 32 }}
-                        source={require('../../assets/icon/Plus.png')} />
-                </TouchableOpacity>
+                {AddTouch(page,navigation)}
                 <TouchableOpacity
                 onPress={() => navigation.navigate('Forum')}>
                     {ForumTouch(page)}

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect,useState } from "react";
 import { StyleSheet, Dimensions, View, FlatList, Text, Image, ImageBackground } from "react-native";
 import { StoreContext } from "../stores/drinkStore";
 import AnalysisList from "../components/AnalysisList";
@@ -8,9 +8,18 @@ import { VictoryPie } from "victory-native";
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
+const wantedGraphicData = [{ y: 60 }, { y: 30 }, { y: 10 }]; // Data that we want to display
+const defaultGraphicData = [{ y:0 }, { y: 0 }, { y:  100 }];
+
 const AnalysisScreen = ({ navigation }) => {
   const { drinkState } = useContext(StoreContext);
   const [drinks, setDrinks] = drinkState;
+  const [graphicData, setGraphicData] = useState(defaultGraphicData);
+  
+
+  useEffect(() => {
+    setGraphicData(wantedGraphicData);
+  }, []);
   return (
     <View style={{ flex: 1, backgroundColor: '#FAE7CB' }}>
       <Image
@@ -38,12 +47,26 @@ const AnalysisScreen = ({ navigation }) => {
           </View>
           <View style={{ width: screenWidth, flexDirection: 'row' }}>
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-              <VictoryPie
+              {/* <VictoryPie
                 data={[
                   { x: 1, y: 0.6 },
                   { x: 2, y: 0.3 },
                   { x: 3, y: 0.1 }
                 ]}
+                style={{
+                  labels: {
+                    fontSize: 1
+                  }
+                }}
+                colorScale={["#FF612B", "#FFB455", "#43B5FF"]}
+                width={250}
+                height={250}
+                innerRadius={60} /> */}
+                <VictoryPie
+                animate={{ easing: 'exp' }}
+                // delay ={1000}
+                duration={60000}
+                data={graphicData}
                 style={{
                   labels: {
                     fontSize: 1

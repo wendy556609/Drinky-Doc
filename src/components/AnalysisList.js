@@ -1,15 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image,ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground, Animated } from 'react-native';
 
 
 
 export default function AnalysisList({ drink, navigation }) {
+  
+
+  
   return (
     <View style={styles.container}>
       {/* {drink.map((date, i) => {
           return ( */}
       <View>
-        <Text style={{ marginLeft: 16, fontSize: 12,marginTop:24 }}>{drink.day}</Text>
+        <Text style={{ marginLeft: 16, fontSize: 12, marginTop: 24 }}>{drink.day}</Text>
         <View>
           {drink.detail.map((item, i) => {
             return (
@@ -20,19 +23,19 @@ export default function AnalysisList({ drink, navigation }) {
                   <Image style={{
                     height: 54,
                     width: 343,
-                    position:'absolute'
+                    position: 'absolute'
                   }}
-                    source={require('../../assets/icon/detail_back.png')}/>
+                    source={require('../../assets/icon/detail_back.png')} />
 
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                      <Image
-                        style={{ width: 40, height: 40, marginLeft: 10 }}
-                        source={require('../../assets/icon/img.png')} />
-                      <Text style={styles.nameStyle}>{item.name}</Text>
-                    </View>
-                    <View style={{ marginRight: 9 }}>
-                      <Text style={{ color: "#FF612B" }}>{item.calories + "cal" + " / " + item.sugar + "g"}</Text>
-                    </View>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Image
+                      style={{ width: 40, height: 40, marginLeft: 10 }}
+                      source={require('../../assets/icon/img.png')} />
+                    <Text style={styles.nameStyle}>{item.name}</Text>
+                  </View>
+                  <View style={{ marginRight: 9 }}>
+                    <Text style={{ color: "#FF612B" }}>{item.calories + "cal" + " / " + "$" + item.money}</Text>
+                  </View>
                 </View>
               </TouchableOpacity>
             )
@@ -62,7 +65,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginLeft: 16,
     marginRight: 16,
-    marginTop:10,
+    marginTop: 10,
   },
   nameStyle: {
     marginLeft: 16,

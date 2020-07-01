@@ -30,11 +30,13 @@ const DATA_ADD_KEY = "DATA_ADD_KEY";
 
 // Make a Provider
 export const StoreProvider = ({ children }) => {
+  const [account,setAccount]=useState("");
   const [drinks, setDrinks] = useState(drinkData.drink);
   const [drinkTemp, setdrinkTemp] = useState(drinkDetail);
   const store = {
     drinkState: [drinks, setDrinks],
     drinkTempState: [drinkTemp, setdrinkTemp],
+    accountState:[account,setAccount]
   };
 
   const restoreState = async () => {

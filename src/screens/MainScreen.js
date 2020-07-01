@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { StyleSheet, Dimensions, View, Text, FlatList, TouchableOpacity, Image, ScrollView, ImageBackground, SectionList, SafeAreaView } from "react-native";
+import React, { useContext,  useEffect } from "react";
+import { StyleSheet, Dimensions, View, Text, FlatList, TouchableOpacity, Image, ScrollView, ImageBackground, Animated } from "react-native";
 import test from "../json/test.json";
 import MainList from "../components/MainList";
 import TabComponent from "../components/TabComponent";
@@ -11,6 +11,13 @@ const screenHeight = Dimensions.get('window').height;
 const MainScreen = ({ navigation }) => {
   const { drinkState } = useContext(StoreContext);
   const [drinks, setDrinks] = drinkState;
+  const lenth = new Animated.Value(0);
+
+  useEffect(() => {
+    Animated.spring(lenth,{
+      toValue:223
+    }).start();
+  },[])
   return (
     <View style={{ flex: 1, backgroundColor: "#F8F8F8" }}>
       <Image
@@ -57,9 +64,9 @@ const MainScreen = ({ navigation }) => {
           <View>
 
             <View style={{ alignItems: 'center', justifyContent: 'space-between', height: 24, width: 343, borderWidth: 1, borderColor: '#FF612B', borderRadius: 11, flexDirection: 'row' }} >
-              <View style={{ alignItems: 'center', justifyContent: 'center', height: 24, width: 223, borderTopLeftRadius: 11, borderBottomLeftRadius: 11, backgroundColor: '#FF612B' }}>
+              <Animated.View style={{ alignItems: 'center', justifyContent: 'center', height: 24, width: lenth, borderTopLeftRadius: 11, borderBottomLeftRadius: 11, backgroundColor: '#FF612B' }}>
                 <Text style={{ color: '#fff' }}>1250</Text>
-              </View>
+              </Animated.View>
               <View style={{ alignItems: 'center', justifyContent: 'center', height: 24, width: 120 }}>
                 <Text style={{ color: '#FF612B' }}>750</Text>
               </View>
