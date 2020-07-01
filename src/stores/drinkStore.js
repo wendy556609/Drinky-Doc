@@ -19,7 +19,8 @@ const drinkDetail = {
       store: null,
       cup: 0,
       ice: "去冰",
-      money:0
+      money:0,
+      add:"無"
     }
   ]
 };

@@ -18,7 +18,8 @@ const DetailScreen = ({ route }) => {
     store,
     cup,
     ice,
-    money
+    money,
+    add
   } = route.params;
   return (
     <View style={{ flex: 1 }}>
@@ -47,6 +48,7 @@ const DetailScreen = ({ route }) => {
                   <Text style={styles.detailFontStyle}>{"容量 : " + cup + "cup / " + capacity + "ml"}</Text>
                   <Text style={styles.detailFontStyle}>{"甜度 : " + sweet}</Text>
                   <Text style={styles.detailFontStyle}>{"冰塊 : " + ice}</Text>
+                  <Text  style={styles.detailFontStyle}>{"加料 : " + add}</Text>
                 </View>
                 <Text style={{ fontSize: 24, marginLeft: 65, color: '#FF612B',fontWeight:'bold' }}>{money + "元"}</Text>
               </View>

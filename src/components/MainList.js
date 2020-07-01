@@ -32,7 +32,7 @@ export default function MainList({ drink, navigation }) {
                       <Text style={styles.nameStyle}>{item.name}</Text>
                     </View>
                     <View style={{ marginRight: 9 }}>
-                      <Text style={{ color: "#FF612B" }}>{item.calories + "cal" + " / " + item.sugar + "g"}</Text>
+                      <Text style={{ color: "#FF612B" }}>{item.calories + "cal" + " / " + "$" + item.money}</Text>
                     </View>
                 </View>
               </TouchableOpacity>

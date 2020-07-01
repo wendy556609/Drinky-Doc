@@ -14,6 +14,7 @@ import DetailScreen from "./src/screens/DetailScreen"
 import AddScreen from "./src/screens/AddScreen"
 import ForumScreen from "./src/screens/ForumScreen"
 import AccountScreen from "./src/screens/AccountScreen"
+import Login from "./src/screens/Login"
 
 
 const PERSISTENCE_KEY = "DRINK_NAVIGATION_STATE";
@@ -22,9 +23,9 @@ const Data_PERSISTENCE_KEY = "Data_PERSISTENCE_KEY";
 const DATA_ADD_KEY = "DATA_ADD_KEY";
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator()
 
 const App = () => {
+  const [isLogin, setLogin] = React.useState(false);
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
 
@@ -52,9 +53,15 @@ const App = () => {
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
-        const savedStateString = await AsyncStorage.getItem(PERSISTENCE_KEY);
-        const state = JSON.parse(savedStateString);
-        setInitialNavigationState(state);
+        // if(isLogin){
+          const savedStateString = await AsyncStorage.getItem(PERSISTENCE_KEY);
+          const state = JSON.parse(savedStateString);
+          setInitialNavigationState(state);
+        // }
+        // else{
+        //   setInitialNavigationState("Login");
+        // }
+        
       } catch (e) {
         console.warn(e);
       } finally {
@@ -71,13 +78,23 @@ const App = () => {
     return (
       <NavigationContainer
         ref={ref}
-        initialState={initialNavigationState}
-
+        // initialState={initialNavigationState}
+        initialRouteName={"Login"}
+        // initialState={"Login"}
         onStateChange={(state) =>
           AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
         }>
 
         <Stack.Navigator>
+        <Stack.Screen name="Login"
+            component={Login}
+            options={() => ({
+              title: null,
+              headerStyle: { backgroundColor: "#FFFFFF", height: 60, elevation: 0 },
+              headerLeft: null,
+              headerRight: null
+            })}
+          />
           <Stack.Screen name="Main"
             component={MainScreen}
             options={() => ({
@@ -147,7 +164,7 @@ const App = () => {
               headerRight: () => {
                 return (
                   <TouchableOpacity
-                  onPress={() => AsyncStorage.clear()}
+                    onPress={() => AsyncStorage.clear()}
                   >
                     <Image
                       style={styles.btnIconStyle}
@@ -183,17 +200,24 @@ const App = () => {
                       />
                     </TouchableOpacity>
                     <TouchableOpacity
-                      onPress={(name, capacity, sweet, calories, sugar, sport, photo, store, cup, ice, day, data, plus) => {
+                      onPress={(name, capacity, sweet, calories, sugar, sport, photo, store, cup, ice, day, money, data, add) => {
                         name = drinkTemp.detail[0].name;
                         capacity = drinkTemp.detail[0].capacity;
                         sweet = drinkTemp.detail[0].sweet;
                         photo = drinkTemp.detail[0].photo;
                         store = drinkTemp.detail[0].store;
+                        money = drinkTemp.detail[0].money;
                         cup = drinkTemp.detail[0].cup;
                         ice = drinkTemp.detail[0].ice;
+                        add = drinkTemp.detail[0].add;
                         day = drinkTemp.day;
                         sugar = capacity * 0.02 * drinkTemp.detail[0].sweetindex * cup;
-                        calories = capacity * 0.08 * drinkTemp.detail[0].sweetindex * cup;
+                        if (drinkTemp.detail[0].calories === 0) {
+                          calories = capacity * 0.08 * drinkTemp.detail[0].sweetindex * cup;
+                        }
+                        else {
+                          calories = drinkTemp.detail[0].calories;
+                        }
                         //sport = parseInt(calories / 10);
                         sport = (calories / 10 / 60).toFixed(1);
                         data = {
@@ -209,7 +233,9 @@ const App = () => {
                               photo,
                               store,
                               cup,
-                              ice
+                              ice,
+                              money,
+                              add
                             }
                           ]
                         };

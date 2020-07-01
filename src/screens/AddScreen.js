@@ -41,7 +41,7 @@ const AddScreen = () => {
             id: "",
             name: "",
             photo: null,
-            money: 0,
+            money: '',
             capacity: "",
             calories: ""
         });
@@ -102,7 +102,7 @@ const AddScreen = () => {
                             {drink.map((drink) => {
                                 return (
                                     <View style={{ flex: 1 }} key={drink.id}>
-                                        <TouchableOpacity onPress={() => { setDrinkSearch(drink.name); setDrinkData(drink); console.log(drinkData) }}>
+                                        <TouchableOpacity onPress={() => { setDrinkSearch(drink.name); setDrinkData(drink); }}>
                                             <View style={{ width: screenWidth - 10, height: 44, borderColor: '#FFB455', borderWidth: 1, borderRadius: 8, alignItems: 'center', justifyContent: 'space-between', marginBottom: 25, flexDirection: 'row' }}>
                                                 <Text style={{ marginLeft: 40, fontSize: 16 }}>{drink.name}</Text>
                                                 <Text style={{ marginRight: 35, fontWeight: 'bold', color: '#FFB455', fontSize: 16 }}>{"$" + drink.money}</Text>
@@ -250,7 +250,10 @@ const AddScreen = () => {
                                 // setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], name } } })
                             }}
                             onTouchStart={() => { setDrinkTouch(true); clickToDrinkScroll(); }}
-                            onSubmitEditing={() => { setDrinkTouch(false); setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], name:drinkSearch } } })}}
+                            onSubmitEditing={() => { setDrinkTouch(false); 
+                                setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], name:drinkSearch,calories:parseInt(String(drinkData.calories),10) } } });
+                                // setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], calories:parseInt(String(drinkData.calories),10) } } });
+                            }}
                         // value={me.email}
                         // onChangeText={(email) => setMe({ ...me, email })}
                         />
@@ -265,7 +268,7 @@ const AddScreen = () => {
                             borderWidth: 1,
                         }}>
                             <Input
-                                // value={String(drinkData.money)}
+                                value={String(drinkData.money)}
                                 leftIcon={() => <Image style={{ width: 24, height: 24, marginLeft: -25 }} source={require('../../assets/icon/money.png')} />}
                                 leftIconContainerStyle={{
                                     width: 24, height: 24
@@ -288,9 +291,8 @@ const AddScreen = () => {
                                 placeholderTextColor="#9D9D9D"
                                 onChangeText={(money) => {
                                     setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], money:parseInt(money,10) } } })
-                                    console.log(parseInt(money,10));
                                 }}
-                                // onSubmitEditing={() => { setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], money:drinkData.money } } })}}
+                                onSubmitEditing={() => { setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], money:parseInt(String(drinkData.money),10) } } })}}
                             // value={me.email}
                             // onChangeText={(email) => setMe({ ...me, email })}
                             />
@@ -494,7 +496,7 @@ const AddScreen = () => {
                             <Button buttonStyle={styles.buttonStyle} titleStyle={styles.buttonFontStyle} type='outline' title="全糖" /> */}
                                 <ButtonGroup
                                     buttons={addBtn}
-                                    onPress={(addindex, add) => { setAdd(addindex); add = addBtn[addindex]; }}
+                                    onPress={(addindex, add) => { setAdd(addindex); add = addBtn[addindex];setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], add } } }); }}
                                     selectedIndex={addindex}
 
                                     containerStyle={{
@@ -524,7 +526,7 @@ const AddScreen = () => {
                                 />
                                 <ButtonGroup
                                     buttons={add2Btn}
-                                    onPress={(add2index, add2) => { setAdd2(add2index); add2 = add2Btn[add2index]; }}
+                                    onPress={(add2index, add2) => { setAdd2(add2index); add2 = add2Btn[add2index];setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], add } } }); }}
                                     selectedIndex={add2index}
                                     containerStyle={{
                                         flexDirection: 'row',
