@@ -18,7 +18,8 @@ const drinkDetail = {
       photo: "https://raw.githubusercontent.com/wendy556609/APP_Middle/master/assets/icon/img.png",
       store: null,
       cup: 0,
-      ice: "去冰"
+      ice: "去冰",
+      money:0
     }
   ]
 };

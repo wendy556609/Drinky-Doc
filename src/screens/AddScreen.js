@@ -1,7 +1,10 @@
-import React, { useState, useContext } from "react";
-import { StyleSheet, View, Dimensions, Text, ScrollView, Image } from "react-native";
-import { Input, ButtonGroup } from "react-native-elements";
+import React, { useState, useContext, useEffect } from "react";
+import { StyleSheet, View, Dimensions, Text, ScrollView, Image, FlatList, TouchableOpacity } from "react-native";
+import { Input, ButtonGroup, SearchBar } from "react-native-elements";
 import { StoreContext } from "../stores/drinkStore";
+import test from "../json/test.json"
+import SearchInput, { createFilter } from 'react-native-search-filter';
+const KEYS_TO_FILTERS = ['drink.shopName', 'subject'];
 
 const screenHeight = Dimensions.get('window').height;
 const screenWidth = Dimensions.get('window').width;
@@ -9,9 +12,17 @@ const screenWidth = Dimensions.get('window').width;
 const sweetBtn = ['無糖', '微糖', '半糖', '少糖', '全糖'];
 const iceBtn = ['去冰', '微冰', '半冰', '少冰', '全冰'];
 const addBtn = ['珍珠', '椰果', '布丁', '仙草'];
-const add2Btn = ['粉條', '紅豆','芋圓','愛玉'];
+const add2Btn = ['粉條', '紅豆', '芋圓', '愛玉'];
+
+const input = React.createRef(null);
+
+var drinklayout;
+var shoplayout;
+var myScrollView;
 
 const AddScreen = () => {
+    const [touch, setTouch] = useState(false);
+    const [drinkTouch, setDrinkTouch] = useState(false);
     const [sweetindex, setSweet] = useState(0);
     const [iceindex, setIce] = useState(0);
     const [addindex, setAdd] = useState(0);
@@ -19,19 +30,152 @@ const AddScreen = () => {
 
     const { drinkTempState } = useContext(StoreContext);
     const [drinkTemp, setDrinkTemp] = drinkTempState;
+    const [search, setSearch] = useState('');
+    const [drinkSearch, settDrinkSearch] = useState('');
+    const [shopFilter, setShopFilter] = useState(test);
+    const [drinkFilter, setDrinkFilter] = useState(test);
+    const [shopData, setShopData] = useState(null);
+
+    // let filteredShops = test.drink.filter(createFilter(search, KEYS_TO_FILTERS))
+    const clickToDrinkScroll = () => {
+        // 其中this.layouot.y就是距离现在的高度位置 
+        myScrollView.scrollTo({ x: 0, y: drinklayout.y, animated: true });
+    };
+    const clickToShopScroll = () => {
+        // 其中this.layouot.y就是距离现在的高度位置 
+        myScrollView.scrollTo({ x: 0, y: shoplayout.y, animated: true });
+    };
+
+    const shopName = (touch, store) => {
+        // if(store===null)store=test;
+        if (touch) {
+
+            return (
+                <View>
+
+                    <View style={{ width: screenWidth, height: screenHeight, position: 'absolute', zIndex: 0, backgroundColor: '#8E5A18', opacity: 0.22 }}></View>
+                    <View style={{ width: screenWidth, height: screenHeight, position: 'absolute', marginTop: 90, zIndex: 10, backgroundColor: '#FFFFFF', alignItems: 'flex-start', justifyContent: 'center', flexDirection: 'row' }}>
+                        {store.map((shop) => {
+                            return (
+                                <View style={{ flex: 1 }} key={shop.id}>
+                                    <TouchableOpacity onPress={() => { setSearch(shop.shopName); setShopData(shop); }}>
+                                        <View style={{ width: 115, height: 115, borderColor: '#FFB455', borderWidth: 1, borderRadius: 8, alignItems: 'center', justifyContent: 'center', marginLeft: 35, marginTop: 24 }}>
+                                            <Image
+                                                style={{ width: 113, height: 113, borderRadius: 8 }}
+                                                source={{ uri: shop.photo }}
+                                            />
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                            )
+                        }
+                        )}
+                    </View>
+                </View>
+            )
+        }
+        else {
+            return null
+        }
+    }
+
+    const drinkName = (touch) => {
+        // if(store===null)store=test;
+        if (touch) {
+
+            return (
+                <View>
+
+                    <View style={{ width: screenWidth, height: screenHeight, position: 'absolute', zIndex: 0, backgroundColor: '#8E5A18', opacity: 0.22 }}></View>
+                    <View style={{ width: screenWidth, height: screenHeight, position: 'absolute', marginTop: 90, zIndex: 20, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+                        <ScrollView>
+                            {test.drink[0].menu.map((shop) => {
+                                return (
+                                    <View style={{ flex: 1 }} key={shop.id}>
+                                        <TouchableOpacity onPress={() => { }}>
+                                            <View style={{ width: screenWidth - 10, height: 44, borderColor: '#FFB455', borderWidth: 1, borderRadius: 8, alignItems: 'center', justifyContent: 'space-between', marginTop: 20, flexDirection: 'row' }}>
+                                                <Text style={{ marginLeft: 40, fontSize: 16 }}>{shop.name}</Text>
+                                                <Text style={{ marginRight: 35, fontWeight: 'bold', color: '#FFB455', fontSize: 16 }}>{"$" + shop.money}</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+                                )
+                            }
+                            )}
+                        </ScrollView>
+                    </View>
+                </View>
+            )
+        }
+        else {
+            return null
+        }
+    }
+
+    const storeShopSearch = () => {
+        var searchWord = search;
+        let updatedList;
+        if (searchWord) {
+            searchWord = searchWord.trim().toLowerCase();
+            updatedList = test.drink.filter((item) => {
+                if (item.shopName.toLowerCase().indexOf(searchWord) !== -1) {
+                    return item
+                }
+            });
+
+        }
+        else {
+            updatedList = test.drink;
+        }
+        setShopFilter(updatedList);
+
+        //   let filteredShops
+    }
+
+    // const storeDrinkSearch = () => {
+    //     var searchWord = search;
+    //     let updatedList;
+    //     if (searchWord) {
+    //         searchWord = searchWord.trim().toLowerCase();
+    //         updatedList = test.drink.filter((item) => {
+    //             if (item.shopName.toLowerCase().indexOf(searchWord) !== -1) {
+    //                 return item
+    //             }
+    //         });
+
+    //     }
+    //     else {
+    //         updatedList = test.drink;
+    //     }
+    //     setShopFilter(updatedList);
+
+    //     //   let filteredShops
+    // }
+    // const storeSearch=()=>{
+    //     filteredShops = test.drink.filter(createFilter(search, KEYS_TO_FILTERS))
+    // }
+    useEffect(() => {
+        storeShopSearch();
+    }, [search]);
     return (
         <View style={{ flex: 1 }} >
             <Image
                 style={{ position: 'absolute', height: screenHeight, width: screenWidth, resizeMode: 'stretch' }}
                 resizeMode='stretch'
                 source={require('../../assets/icon/bg.png')} />
-            <ScrollView>
+            {shopName(touch, shopFilter)}
+            {drinkName(drinkTouch)}
+            {/* {shopName(touch, filteredShops)} */}
+            <ScrollView style={{ zIndex: 2 }}
+                ref={(view) => { myScrollView = view; }}>
 
                 <View style={{
                     width: 343, height: null, alignSelf: 'center', justifyContent: 'center'
                 }}>
-                    <View style={{ paddingTop: 24 }}>
+                    <View style={{ paddingTop: 24 }}
+                        onLayout={event => { shoplayout = event.nativeEvent.layout }}>
                         <Input
+                            value={search}
                             leftIcon={() => <Image style={{ width: 24, height: 24, marginLeft: -25 }} source={require('../../assets/icon/icon-room.png')} />}
                             leftIconContainerStyle={{
                                 width: 24, height: 24
@@ -56,13 +200,19 @@ const AddScreen = () => {
                                 fontSize: 16
                             }}
                             placeholderTextColor="#9D9D9D"
-                            onChangeText={(store) => setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], store } } })}
+                            onChangeText={(store) => {
+                                setSearch(store);
+                                setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], store } } });
+                            }}
+                            ref={input}
+                            onTouchStart={() => { setTouch(true); clickToShopScroll(); }}
+                            onSubmitEditing={() => { setTouch(false); }}
                         // value={me.email}
                         // onChangeText={(email) => setMe({ ...me, email })}
                         />
-
                     </View>
-                    <View style={{ paddingTop: 14 }}>
+                    <View style={{ paddingTop: 14 }}
+                        onLayout={event => { drinklayout = event.nativeEvent.layout }}>
                         <Input
                             leftIcon={() => <Image style={{ width: 24, height: 24, marginLeft: -25 }} source={require('../../assets/icon/icon-create.png')} />}
                             leftIconContainerStyle={{
@@ -88,10 +238,51 @@ const AddScreen = () => {
                                 fontSize: 16
                             }}
                             placeholderTextColor="#9D9D9D"
-                            onChangeText={(name) => setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], name } } })}
+                            onChangeText={(name) => {
+                                setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], name } } })
+                            }}
+                            onTouchStart={() => { setDrinkTouch(true); clickToDrinkScroll(); }}
+                            onSubmitEditing={() => { setDrinkTouch(false); }}
                         // value={me.email}
                         // onChangeText={(email) => setMe({ ...me, email })}
                         />
+                    </View>
+                    <View style={{ paddingTop: 14 }}>
+                        <View style={{
+                            flexDirection: 'row', height: 54,
+                            width: 343,
+                            alignItems: 'center', backgroundColor: '#FAE7CB',
+                            borderColor: "#FFB385",
+                            borderRadius: 2,
+                            borderWidth: 1,
+                        }}>
+                            <Input
+                                leftIcon={() => <Image style={{ width: 24, height: 24, marginLeft: -25 }} source={require('../../assets/icon/money.png')} />}
+                                leftIconContainerStyle={{
+                                    width: 24, height: 24
+                                }}
+                                placeholder="金額"
+                                containerStyle={{
+                                    height: 54,
+                                    width: 304,
+                                }}
+                                inputContainerStyle={{
+                                    height: 54,
+                                    width: null,
+                                    borderColor: "transparent",
+                                    alignSelf: 'center'
+                                }}
+                                inputStyle={{
+                                    color: '#515151',
+                                    fontSize: 16
+                                }}
+                                placeholderTextColor="#9D9D9D"
+                                onChangeText={(money) => setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], money } } })}
+                            // value={me.email}
+                            // onChangeText={(email) => setMe({ ...me, email })}
+                            />
+                            <Text style={{ fontSize: 14, color: '#FF8155' }}>NT$</Text>
+                        </View>
                     </View>
                     <View style={{ paddingTop: 14 }}>
                         <View style={{
@@ -288,18 +479,18 @@ const AddScreen = () => {
                                     selectedIndex={addindex}
 
                                     containerStyle={{
-                                        
+
                                         height: 30,
                                         width: 300,
                                         borderWidth: 0,
                                         marginBottom: 5,
                                         backgroundColor: '#FAE7CB',
-                                        
+
                                     }}
                                     buttonStyle={{
                                         height: 30,
                                         width: 64,
-                                        
+
                                         backgroundColor: "#FFFFFF",
                                         borderColor: "#FFB385",
                                         borderRadius: 2,
