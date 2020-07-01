@@ -30,7 +30,7 @@ export default function AnalysisList({ drink, navigation }) {
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Image
                       style={{ width: 40, height: 40, marginLeft: 10 }}
-                      source={require('../../assets/icon/img.png')} />
+                      source={{uri:item.photo}} />
                     <Text style={styles.nameStyle}>{item.name}</Text>
                   </View>
                   <View style={{ marginRight: 9 }}>

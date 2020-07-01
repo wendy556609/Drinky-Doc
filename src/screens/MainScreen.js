@@ -1,4 +1,4 @@
-import React, { useContext,  useEffect } from "react";
+import React, { useContext,  useEffect, useState } from "react";
 import { StyleSheet, Dimensions, View, Text, FlatList, TouchableOpacity, Image, ScrollView, ImageBackground, Animated } from "react-native";
 import test from "../json/test.json";
 import MainList from "../components/MainList";
@@ -9,6 +9,7 @@ const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 const MainScreen = ({ navigation }) => {
+  const [cup,setCup]=useState(0);
   const { drinkState } = useContext(StoreContext);
   const [drinks, setDrinks] = drinkState;
   const lenth = new Animated.Value(0);
