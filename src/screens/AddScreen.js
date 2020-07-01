@@ -21,6 +21,7 @@ var shoplayout;
 var myScrollView;
 
 const AddScreen = () => {
+    const [cupCount, setCupCount] = useState(0);
     const [touch, setTouch] = useState(false);
     const [drinkTouch, setDrinkTouch] = useState(false);
     const [sweetindex, setSweet] = useState(0);
@@ -31,10 +32,19 @@ const AddScreen = () => {
     const { drinkTempState } = useContext(StoreContext);
     const [drinkTemp, setDrinkTemp] = drinkTempState;
     const [search, setSearch] = useState('');
-    const [drinkSearch, settDrinkSearch] = useState('');
+    const [drinkSearch, setDrinkSearch] = useState('');
     const [shopFilter, setShopFilter] = useState(test);
     const [drinkFilter, setDrinkFilter] = useState(test);
-    const [shopData, setShopData] = useState(null);
+    const [shopData, setShopData] = useState(test.drink);
+    const [drinkData, setDrinkData] = useState(
+        {
+            id: "",
+            name: "",
+            photo: null,
+            money: 0,
+            capacity: "",
+            calories: ""
+        });
 
     // let filteredShops = test.drink.filter(createFilter(search, KEYS_TO_FILTERS))
     const clickToDrinkScroll = () => {
@@ -79,7 +89,7 @@ const AddScreen = () => {
         }
     }
 
-    const drinkName = (touch) => {
+    const drinkName = (touch, drink) => {
         // if(store===null)store=test;
         if (touch) {
 
@@ -87,15 +97,15 @@ const AddScreen = () => {
                 <View>
 
                     <View style={{ width: screenWidth, height: screenHeight, position: 'absolute', zIndex: 0, backgroundColor: '#8E5A18', opacity: 0.22 }}></View>
-                    <View style={{ width: screenWidth, height: screenHeight, position: 'absolute', marginTop: 90, zIndex: 20, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+                    <View style={{ width: screenWidth, height: screenHeight, position: 'absolute', marginTop: 90, zIndex: 20, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', paddingTop: 25 }}>
                         <ScrollView>
-                            {test.drink[0].menu.map((shop) => {
+                            {drink.map((drink) => {
                                 return (
-                                    <View style={{ flex: 1 }} key={shop.id}>
-                                        <TouchableOpacity onPress={() => { }}>
-                                            <View style={{ width: screenWidth - 10, height: 44, borderColor: '#FFB455', borderWidth: 1, borderRadius: 8, alignItems: 'center', justifyContent: 'space-between', marginTop: 20, flexDirection: 'row' }}>
-                                                <Text style={{ marginLeft: 40, fontSize: 16 }}>{shop.name}</Text>
-                                                <Text style={{ marginRight: 35, fontWeight: 'bold', color: '#FFB455', fontSize: 16 }}>{"$" + shop.money}</Text>
+                                    <View style={{ flex: 1 }} key={drink.id}>
+                                        <TouchableOpacity onPress={() => { setDrinkSearch(drink.name); setDrinkData(drink); console.log(drinkData) }}>
+                                            <View style={{ width: screenWidth - 10, height: 44, borderColor: '#FFB455', borderWidth: 1, borderRadius: 8, alignItems: 'center', justifyContent: 'space-between', marginBottom: 25, flexDirection: 'row' }}>
+                                                <Text style={{ marginLeft: 40, fontSize: 16 }}>{drink.name}</Text>
+                                                <Text style={{ marginRight: 35, fontWeight: 'bold', color: '#FFB455', fontSize: 16 }}>{"$" + drink.money}</Text>
                                             </View>
                                         </TouchableOpacity>
                                     </View>
@@ -132,31 +142,27 @@ const AddScreen = () => {
         //   let filteredShops
     }
 
-    // const storeDrinkSearch = () => {
-    //     var searchWord = search;
-    //     let updatedList;
-    //     if (searchWord) {
-    //         searchWord = searchWord.trim().toLowerCase();
-    //         updatedList = test.drink.filter((item) => {
-    //             if (item.shopName.toLowerCase().indexOf(searchWord) !== -1) {
-    //                 return item
-    //             }
-    //         });
+    const storeDrinkSearch = () => {
+        var searchWord = drinkSearch;
+        let updatedList;
+        if (searchWord) {
+            searchWord = searchWord.trim().toLowerCase();
+            updatedList = shopData.menu.filter((item) => {
+                if (item.name.toLowerCase().indexOf(searchWord) !== -1) {
+                    return item
+                }
+            });
+        }
+        else {
+            updatedList = shopData.menu;
+        }
+        setDrinkFilter(updatedList);
+    }
 
-    //     }
-    //     else {
-    //         updatedList = test.drink;
-    //     }
-    //     setShopFilter(updatedList);
-
-    //     //   let filteredShops
-    // }
-    // const storeSearch=()=>{
-    //     filteredShops = test.drink.filter(createFilter(search, KEYS_TO_FILTERS))
-    // }
     useEffect(() => {
         storeShopSearch();
-    }, [search]);
+        storeDrinkSearch();
+    }, [search, drinkSearch]);
     return (
         <View style={{ flex: 1 }} >
             <Image
@@ -164,7 +170,7 @@ const AddScreen = () => {
                 resizeMode='stretch'
                 source={require('../../assets/icon/bg.png')} />
             {shopName(touch, shopFilter)}
-            {drinkName(drinkTouch)}
+            {drinkName(drinkTouch, drinkFilter)}
             {/* {shopName(touch, filteredShops)} */}
             <ScrollView style={{ zIndex: 2 }}
                 ref={(view) => { myScrollView = view; }}>
@@ -202,11 +208,11 @@ const AddScreen = () => {
                             placeholderTextColor="#9D9D9D"
                             onChangeText={(store) => {
                                 setSearch(store);
-                                setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], store } } });
+                                // setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], store } } });
                             }}
                             ref={input}
                             onTouchStart={() => { setTouch(true); clickToShopScroll(); }}
-                            onSubmitEditing={() => { setTouch(false); }}
+                            onSubmitEditing={() => { setTouch(false); setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], store: search } } }); }}
                         // value={me.email}
                         // onChangeText={(email) => setMe({ ...me, email })}
                         />
@@ -214,6 +220,7 @@ const AddScreen = () => {
                     <View style={{ paddingTop: 14 }}
                         onLayout={event => { drinklayout = event.nativeEvent.layout }}>
                         <Input
+                            value={drinkSearch}
                             leftIcon={() => <Image style={{ width: 24, height: 24, marginLeft: -25 }} source={require('../../assets/icon/icon-create.png')} />}
                             leftIconContainerStyle={{
                                 width: 24, height: 24
@@ -239,10 +246,11 @@ const AddScreen = () => {
                             }}
                             placeholderTextColor="#9D9D9D"
                             onChangeText={(name) => {
-                                setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], name } } })
+                                setDrinkSearch(name);
+                                // setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], name } } })
                             }}
                             onTouchStart={() => { setDrinkTouch(true); clickToDrinkScroll(); }}
-                            onSubmitEditing={() => { setDrinkTouch(false); }}
+                            onSubmitEditing={() => { setDrinkTouch(false); setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], name:drinkSearch } } })}}
                         // value={me.email}
                         // onChangeText={(email) => setMe({ ...me, email })}
                         />
@@ -257,6 +265,7 @@ const AddScreen = () => {
                             borderWidth: 1,
                         }}>
                             <Input
+                                // value={String(drinkData.money)}
                                 leftIcon={() => <Image style={{ width: 24, height: 24, marginLeft: -25 }} source={require('../../assets/icon/money.png')} />}
                                 leftIconContainerStyle={{
                                     width: 24, height: 24
@@ -277,7 +286,11 @@ const AddScreen = () => {
                                     fontSize: 16
                                 }}
                                 placeholderTextColor="#9D9D9D"
-                                onChangeText={(money) => setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], money } } })}
+                                onChangeText={(money) => {
+                                    setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], money:parseInt(money,10) } } })
+                                    console.log(parseInt(money,10));
+                                }}
+                                // onSubmitEditing={() => { setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], money:drinkData.money } } })}}
                             // value={me.email}
                             // onChangeText={(email) => setMe({ ...me, email })}
                             />
@@ -322,7 +335,10 @@ const AddScreen = () => {
                                         fontSize: 16
                                     }}
                                     placeholderTextColor="#9D9D9D"
-                                    onChangeText={(cup) => setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], cup } } })}
+                                    onChangeText={(cup) => {
+                                        setCupCount(parseInt(cup));
+                                        setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], cup } } })
+                                    }}
                                 // value={me.email}
                                 // onChangeText={(email=> setMe({ ...me, email })}
                                 />
@@ -333,6 +349,7 @@ const AddScreen = () => {
                                 width: 140, flexDirection: 'row', alignItems: 'center'
                             }}>
                                 <Input
+                                    value={drinkData.capacity}
                                     placeholder="容量"
                                     containerStyle={{
                                         height: 54,
@@ -350,6 +367,8 @@ const AddScreen = () => {
                                     }}
                                     placeholderTextColor="#9D9D9D"
                                     onChangeText={(capacity) => setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], capacity } } })}
+                                    
+                                    onSubmitEditing={() => { setDrinkTemp({ ...drinkTemp, detail: { ...drinkTemp.detail, 0: { ...drinkTemp.detail[0], capacity:drinkData.capacity } } })}}
                                 // value={me.email}
                                 // onChangeText={(email) => setMe({ ...me, email })}
                                 />
